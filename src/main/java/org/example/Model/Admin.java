@@ -1,4 +1,10 @@
 package org.example.Model;
 
-public class Admin {
+import java.time.LocalDate;
+
+public class Admin extends User {
+    public Admin(String id, String name, String password, LocalDate dob) {
+        super(id, name, password, dob);
+    }
+
 }

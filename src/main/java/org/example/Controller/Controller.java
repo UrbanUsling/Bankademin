@@ -1,5 +1,6 @@
 package org.example.Controller;
 
+import org.example.Model.Admin;
 import org.example.Model.Customer;
 
 import org.example.Model.ReadFile;
@@ -8,6 +9,7 @@ import org.example.View.*;
 
 
 import java.nio.file.Path;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -31,6 +33,13 @@ public class Controller {
         return testList.stream()
                 .filter(customer -> customer.getId().equalsIgnoreCase(id) && customer.getPassword().equals(password))
                 .findFirst().orElseThrow(() -> new NoSuchElementException());
+    }
+
+    public static Admin verifyLoginAdmin(String id, String password) {
+        if(id.equalsIgnoreCase("1337") && password.equalsIgnoreCase("1337")) {
+            return new Admin("1337", "Admin", "1337", LocalDate.now());
+        }
+        throw new NoSuchElementException();
     }
 
     public static Customer getCustomerById(String id) throws NoSuchElementException {

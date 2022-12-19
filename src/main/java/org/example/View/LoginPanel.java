@@ -1,12 +1,14 @@
 package org.example.View;
 
 import org.example.Controller.Controller;
+import org.example.Model.Admin;
 import org.example.Model.Customer;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDate;
 import java.util.NoSuchElementException;
 
 public class LoginPanel extends JPanel {
@@ -46,6 +48,8 @@ public class LoginPanel extends JPanel {
         loginBtn.addActionListener(event -> {
             try {
                 handleLogin();
+
+
             } catch (NoSuchElementException e) {
                 JOptionPane.showMessageDialog(null, "Wrong username or password!");
             }
@@ -68,12 +72,25 @@ public class LoginPanel extends JPanel {
     }
 
     private void handleLogin() {
-        Customer currentCustomer = Controller.verifyLogin(username.getText(), password.getText());
         Container parent = getParent();
-        parent.removeAll();
-        parent.add(new HeaderPanel(true, currentCustomer), BorderLayout.NORTH);
-        parent.add(new HomePanel(currentCustomer), BorderLayout.CENTER);
+
+        if(username.getText().equalsIgnoreCase("1337") && password.getText().equalsIgnoreCase("1337")) {
+            Admin currentAdmin = new Admin(username.getText().trim(), "Admin", password.getText().trim(), LocalDate.now());
+
+            parent.removeAll();
+            parent.add(new HeaderPanel(true, null, currentAdmin), BorderLayout.NORTH);
+            parent.add(new HomePanel(null, true), BorderLayout.CENTER);
+
+        } else {
+            Customer currentCustomer = Controller.verifyLogin(username.getText().trim(), password.getText().trim());
+
+            parent.removeAll();
+            parent.add(new HeaderPanel(true, currentCustomer, null), BorderLayout.NORTH);
+            parent.add(new HomePanel(currentCustomer, false), BorderLayout.CENTER);
+        }
+
         parent.revalidate();
         parent.repaint();
+
     }
 }
