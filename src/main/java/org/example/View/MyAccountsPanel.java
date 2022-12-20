@@ -12,7 +12,6 @@ public class MyAccountsPanel extends JPanel {
     private JLabel customerName = new JLabel();
     private JButton accountName = new JButton();
     private JLabel balance = new JLabel();
-    private JButton transactionsButton = new JButton("Transaktionshistorik");
     private JTextArea transactions = new JTextArea(25, 40);
     private JScrollPane scrollpane = new JScrollPane(transactions);
 
