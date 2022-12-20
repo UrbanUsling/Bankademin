@@ -1,6 +1,5 @@
 package org.example.Controller;
 
-import org.example.Model.Admin;
 import org.example.Model.Customer;
 
 import org.example.Model.ReadFile;
@@ -9,7 +8,6 @@ import org.example.View.*;
 
 
 import java.nio.file.Path;
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.List;
@@ -35,17 +33,20 @@ public class Controller {
                 .findFirst().orElseThrow(() -> new NoSuchElementException());
     }
 
-    public static Admin verifyLoginAdmin(String id, String password) {
-        if(id.equalsIgnoreCase("1337") && password.equalsIgnoreCase("1337")) {
-            return new Admin("1337", "Admin", "1337", LocalDate.now());
-        }
-        throw new NoSuchElementException();
+    public static Customer getCustomerByIdOrAccountId(String id) throws NoSuchElementException {
+        return readFile.createListFromFile(customersFile).stream()
+                .filter(customer -> customer.getId().equalsIgnoreCase(id) || customer.getAccount().getAccountNumber().equalsIgnoreCase(id))
+                .findFirst().orElseThrow(() -> new NoSuchElementException());
     }
 
-    public static Customer getCustomerById(String id) throws NoSuchElementException {
-        return readFile.createListFromFile(customersFile).stream()
-                .filter(customer -> customer.getId().equalsIgnoreCase(id))
-                .findFirst().orElseThrow(() -> new NoSuchElementException());
+    public static int getAmountOfCustomers() {
+        return readFile.createListFromFile(customersFile).size();
+    }
+
+
+
+    public static List<String> getAllTrans() {
+        return readFile.getTransactionsFromTxt(transactionsPath);
     }
 
 
