@@ -37,7 +37,7 @@ public class ContactPanel extends JPanel {
                 "Karl Hamilton\n" +
                         "Hemligt.\n\n" +
                 "Otto SilverHielm\n" +
-                        "Otto var ordförande för studentkåren på den prestigefyllda internatskolan Solbacka.\n\n";
+                        "Otto var ordförande för studentkåren på den prestigefyllda internatskolan Solbacka.\n";
 
         textArea.append(contactInfoHeader);
         textArea.append(contactInfoBody);
