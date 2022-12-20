@@ -9,6 +9,7 @@ public class GuiFrame extends JFrame {
     private HeaderPanel headerPanel;
 
     private boolean isLoggedIn;
+    private boolean isAdmin;
 
     public GuiFrame(JPanel currentBody, boolean isLoggedIn) {
         this.isLoggedIn = isLoggedIn;
@@ -16,7 +17,7 @@ public class GuiFrame extends JFrame {
         // man öppnar en ny vy.
         this.currentBody = currentBody;
 
-        headerPanel = new HeaderPanel(isLoggedIn, null);
+        headerPanel = new HeaderPanel(isAdmin, isLoggedIn, null);
 
         this.add(headerPanel, BorderLayout.NORTH);
         this.add(currentBody, BorderLayout.CENTER);
