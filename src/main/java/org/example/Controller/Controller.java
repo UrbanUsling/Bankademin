@@ -160,7 +160,7 @@ public class Controller {
         return false;
     }
 
-    private static void updateCustomerTransferBGPG(double amount, Customer fromCustomer) {
+    public static void updateCustomerTransferBGPG(double amount, Customer fromCustomer) {
         Predicate<Customer> isFromCustomer = customer -> customer.getId().equals(fromCustomer.getId());
         List<Customer> customerList = readFile.createListFromFile(customersFile)
                 //When we want to alter the inner state of an element, use peek instead of map (map is more convenient if we want to replace the element).
@@ -175,7 +175,7 @@ public class Controller {
         saveCustomerTransactionToCustomerTxtFormatter(customerList);
     }
 
-    private static void generateStringToTransactionLogBGPG(double amountToSend, Customer fromCustomer, String account, String type) {
+    public static void generateStringToTransactionLogBGPG(double amountToSend, Customer fromCustomer, String account, String type) {
         LocalDateTime ldt = LocalDateTime.now();
         String ldtFormatted = ldt.format(DateTimeFormatter.ofPattern("yy.MM.dd:HHmm")); // 221216:1530 (datum : klockslag)
         StringBuilder sb = new StringBuilder();

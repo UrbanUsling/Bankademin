@@ -39,9 +39,7 @@ public class ContactPanel extends JPanel {
                 "Karl Hamilton\n" +
                         "Hemligt.\n\n" +
                 "Otto SilverHielm\n" +
-                        "Otto var ordförande för studentkåren på den prestigefyllda internatskolan Solbacka.\n" +
-                        "Otto brukar beskrivas av sina kollegor och vänner som ondskefull, sadistisk och hänsynslös.\n" +
-                        "Ottos fritidsintressen sträcker sig från allt kring våld och lidande till olaga hot och bajskastning.\n\n";
+                        "Otto var ordförande för studentkåren på den prestigefyllda internatskolan Solbacka.\n\n";
 
 
         textArea.append(contactInfoHeader);
