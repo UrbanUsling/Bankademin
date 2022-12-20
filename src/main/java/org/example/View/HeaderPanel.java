@@ -69,6 +69,13 @@ public class HeaderPanel extends JPanel {
                 parent.add(new HomePanel(currentCustomer, false), BorderLayout.CENTER);
                 parent.revalidate();
                 parent.repaint();
+            } else if (currentAdmin != null && adminMode) {
+                Container parent = getParent();
+                parent.removeAll();
+                parent.add(new HeaderPanel(true, null, currentAdmin), BorderLayout.NORTH);
+                parent.add(new HomePanel(null, true), BorderLayout.CENTER);
+                parent.revalidate();
+                parent.repaint();
             }
         });
 
@@ -110,7 +117,7 @@ public class HeaderPanel extends JPanel {
                 Container parent = getParent();
                 parent.removeAll();
                 parent.add(new HeaderPanel(true, null, currentAdmin), BorderLayout.NORTH);
-                parent.add(new HomePanel(null, true), BorderLayout.CENTER);
+                parent.add(new AdminPanel(), BorderLayout.CENTER);
                 parent.revalidate();
                 parent.repaint();
             }
