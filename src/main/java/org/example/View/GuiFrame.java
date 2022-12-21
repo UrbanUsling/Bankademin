@@ -32,9 +32,4 @@ public class GuiFrame extends JFrame {
         this.setResizable(false);
     }
 
-    public void setLoggedIn(boolean loggedIn) {
-        isLoggedIn = loggedIn;
-    }
-
-
 }
