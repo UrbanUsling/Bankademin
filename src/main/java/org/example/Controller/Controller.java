@@ -25,6 +25,37 @@ public class Controller {
         new GuiFrame(new LoginPanel(), false);
     }
 
+    //ADMIN START
+    public static long getTotalCapital(){
+        long total = 0;
+        for (Customer customer : readFile.createListFromFile(customersFile)){
+            total += customer.getAccount().getBalance();
+        }
+        return total;
+    }
+
+    public static int getNumberOfTransactions(){
+        int counter = 0;
+        for (String line : readFile.getTransactionsFromTxt(transactionsPath)){
+            counter++;
+        }
+        return counter;
+    }
+
+    public static int getNumberOfCustomers(){
+        int counter = 0;
+        for (Customer customer : readFile.createListFromFile(customersFile)) {
+            counter++;
+        }
+        return counter;
+    }
+
+    public static List<String> getAllTransactions() {
+
+        return readFile.getTransactionsFromTxt(transactionsPath);
+    }       
+
+    //ADMIN SLUT
     public static Customer verifyLogin(String id, String password) throws NoSuchElementException {
         List<Customer> testList =  readFile.createListFromFile(customersFile);
         System.out.println(testList);
@@ -32,13 +63,6 @@ public class Controller {
                 .filter(customer -> customer.getId().equalsIgnoreCase(id) && customer.getPassword().equals(password))
                 .findFirst().orElseThrow(() -> new NoSuchElementException());
     }
-
-    public static Customer getCustomerById(String id) throws NoSuchElementException {
-        return readFile.createListFromFile(customersFile).stream()
-                .filter(customer -> customer.getId().equalsIgnoreCase(id))
-                .findFirst().orElseThrow(() -> new NoSuchElementException());
-    }
-
 
     public static Customer getCustomerByAccountNr(String accountNumber) throws NoSuchElementException {
         return readFile.createListFromFile(customersFile).stream()
@@ -150,7 +174,7 @@ public class Controller {
         return false;
     }
 
-    private static void updateCustomerTransferBGPG(double amount, Customer fromCustomer) {
+    public static void updateCustomerTransferBGPG(double amount, Customer fromCustomer) {
         Predicate<Customer> isFromCustomer = customer -> customer.getId().equals(fromCustomer.getId());
         List<Customer> customerList = readFile.createListFromFile(customersFile)
                 //When we want to alter the inner state of an element, use peek instead of map (map is more convenient if we want to replace the element).
@@ -165,7 +189,7 @@ public class Controller {
         saveCustomerTransactionToCustomerTxtFormatter(customerList);
     }
 
-    private static void generateStringToTransactionLogBGPG(double amountToSend, Customer fromCustomer, String account, String type) {
+    public static void generateStringToTransactionLogBGPG(double amountToSend, Customer fromCustomer, String account, String type) {
         LocalDateTime ldt = LocalDateTime.now();
         String ldtFormatted = ldt.format(DateTimeFormatter.ofPattern("yy.MM.dd:HHmm")); // 221216:1530 (datum : klockslag)
         StringBuilder sb = new StringBuilder();
@@ -194,7 +218,6 @@ public class Controller {
             return false;
         }
     }
-
 
     public static void main(String[] args) {
         new Controller();

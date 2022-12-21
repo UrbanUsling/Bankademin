@@ -21,7 +21,7 @@ public class TransferPanel extends JPanel {
     private JRadioButton plusGiroRadio = new JRadioButton("Plusgiro", false);
     private JButton sendBtn = new JButton("Skicka");
     private String valBgPgChoice;
-    private boolean isbgpg = false;
+    private boolean bgPg = false;
 
     public TransferPanel(Customer currentCustomer) {
         this.currentCustomer = currentCustomer;
@@ -96,13 +96,13 @@ public class TransferPanel extends JPanel {
                 JOptionPane.showMessageDialog(null,"Du kan inte överföra pengar till ditt egna konto!");
             } else if (amountFormatted.contains("-")){
                 JOptionPane.showMessageDialog(null,"Ange giltigt belopp! Inte minus");
-            } else if (!(Controller.isDouble(amountFormatted))) {
+            } else if (!Controller.isDouble(amountFormatted)) {
                 JOptionPane.showMessageDialog(null, "Bara siffror tack!");
             } else if(!accountFormatted.matches("[0-9]+")){
                 JOptionPane.showMessageDialog(null, "Bara siffror tack!");
-            }else{
+            } else {
                 // Kör BG/PG metoden om BG/PG är valt annars metoden för interna konton
-                if(isbgpg) {
+                if(bgPg) {
                     handleTransferBGPG(accountFormatted, Double.parseDouble(amountFormatted));
                 } else {
                     handleTransfer(accountFormatted, Double.parseDouble(amountFormatted));
@@ -114,7 +114,7 @@ public class TransferPanel extends JPanel {
             valBgPgChoice = "Bankgiro";
             sendBtn.setVisible(true);
             plusGiroRadio.setVisible(false);
-            isbgpg = true;
+            bgPg = true;
             System.out.println("Bank Giro");
         });
 
@@ -122,7 +122,7 @@ public class TransferPanel extends JPanel {
             valBgPgChoice = "Plusgiro";
             sendBtn.setVisible(true);
             bankGiroRadio.setVisible(false);
-            isbgpg = true;
+            bgPg = true;
             System.out.println("Plus giro");
         });
 
@@ -145,7 +145,6 @@ public class TransferPanel extends JPanel {
     }
 
     private void handleTransfer(String account, double amount) {
-        isbgpg = false;
         try {
             Customer receiver = Controller.getCustomerByAccountNr(account);
             boolean greatSuccess = Controller.transferToOtherAccount(amount, currentCustomer, receiver);
@@ -160,13 +159,13 @@ public class TransferPanel extends JPanel {
 
     }
     private void handleTransferBGPG(String account, double amount) {
-
-            boolean greatSuccess = Controller.transferToBGPG(amount, currentCustomer, account, valBgPgChoice);
-            if(greatSuccess) {
-                JOptionPane.showMessageDialog(null, "Skickade " + amount + " Kr till " + valBgPgChoice + " konto: " + account);
-            } else {
-                JOptionPane.showMessageDialog(null, "Du har ej tillräckligt med pengar på kontot, du har: " + currentCustomer.getAccount().getBalance() + " Kr");
-            }
+        bgPg = false;
+        boolean greatSuccess = Controller.transferToBGPG(amount, currentCustomer, account, valBgPgChoice);
+        if(greatSuccess) {
+            JOptionPane.showMessageDialog(null, "Skickade " + amount + " Kr till " + valBgPgChoice + " konto: " + account);
+        } else {
+            JOptionPane.showMessageDialog(null, "Du har ej tillräckligt med pengar på kontot, du har: " + currentCustomer.getAccount().getBalance() + " Kr");
+        }
 
     }
 

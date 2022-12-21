@@ -1,5 +1,6 @@
 package org.example.View;
 
+import org.example.Model.Admin;
 import org.example.Model.Customer;
 
 import javax.swing.*;
@@ -12,14 +13,19 @@ public class HeaderPanel extends JPanel {
     private JButton buttonThree = new JButton("Betala och överföra");
     private JButton buttonFour = new JButton("Om oss & kontakt");
 
-    private boolean isLoggedIn;
+    private JButton adminBtn = new JButton("Admin Panel");
 
+    private boolean isLoggedIn;
+    private Admin currentAdmin;
     private Customer currentCustomer;
 
+    private boolean adminMode;
 
-    public HeaderPanel(boolean isLoggedIn, Customer currentCustomer){
+
+    public HeaderPanel(boolean isLoggedIn, Customer currentCustomer, Admin currentAdmin){
         this.currentCustomer = currentCustomer;
         this.isLoggedIn = isLoggedIn;
+        this.currentAdmin = currentAdmin;
         this.setLayout(new GridBagLayout());
 
         loadMenu(isLoggedIn);
@@ -30,7 +36,11 @@ public class HeaderPanel extends JPanel {
     }
 
     public void loadMenu(boolean isLoggedIn) {
-        if(isLoggedIn) {
+        if(isLoggedIn && currentAdmin != null) {// Dvs om man är admin
+            JButton[] adminButtons = {buttonOne, adminBtn};
+            loadButtons(adminButtons);
+            adminMode = true;
+        } else if (isLoggedIn) {
             JButton[] buttons = {buttonOne, buttonTwo, buttonThree, buttonFour};
             loadButtons(buttons);
         } else {
@@ -52,21 +62,28 @@ public class HeaderPanel extends JPanel {
 
     public void addListeners() {
         buttonOne.addActionListener(event -> {
-            if(currentCustomer != null) {
+            if(currentCustomer != null && !adminMode) {
                 Container parent = getParent();
                 parent.removeAll();
-                parent.add(new HeaderPanel(true, currentCustomer), BorderLayout.NORTH);
-                parent.add(new HomePanel(currentCustomer), BorderLayout.CENTER);
+                parent.add(new HeaderPanel(true, currentCustomer, null), BorderLayout.NORTH);
+                parent.add(new HomePanel(currentCustomer, false), BorderLayout.CENTER);
+                parent.revalidate();
+                parent.repaint();
+            } else if (currentAdmin != null && adminMode) {
+                Container parent = getParent();
+                parent.removeAll();
+                parent.add(new HeaderPanel(true, null, currentAdmin), BorderLayout.NORTH);
+                parent.add(new HomePanel(null, true), BorderLayout.CENTER);
                 parent.revalidate();
                 parent.repaint();
             }
         });
 
         buttonTwo.addActionListener(event -> {
-            if(currentCustomer != null) {
+            if(currentCustomer != null && !adminMode) {
                 Container parent = getParent();
                 parent.removeAll();
-                parent.add(new HeaderPanel(true, currentCustomer), BorderLayout.NORTH);
+                parent.add(new HeaderPanel(true, currentCustomer, null), BorderLayout.NORTH);
                 parent.add(new MyAccountsPanel(currentCustomer), BorderLayout.CENTER);
                 parent.revalidate();
                 parent.repaint();
@@ -74,10 +91,10 @@ public class HeaderPanel extends JPanel {
         });
 
         buttonThree.addActionListener(event -> {
-            if(currentCustomer != null) {
+            if(currentCustomer != null && !adminMode) {
                 Container parent = getParent();
                 parent.removeAll();
-                parent.add(new HeaderPanel(true, currentCustomer), BorderLayout.NORTH);
+                parent.add(new HeaderPanel(true, currentCustomer, null), BorderLayout.NORTH);
                 parent.add(new TransferPanel(currentCustomer), BorderLayout.CENTER);
                 parent.revalidate();
                 parent.repaint();
@@ -85,13 +102,25 @@ public class HeaderPanel extends JPanel {
         });
 
         buttonFour.addActionListener(event -> {
-            Container parent = getParent();
-            parent.removeAll();
-            parent.add(new HeaderPanel(true, currentCustomer), BorderLayout.NORTH);
-            parent.add(new ContactPanel(currentCustomer), BorderLayout.CENTER);
-            parent.revalidate();
-            parent.repaint();
+            if(currentCustomer != null && !adminMode) {
+                Container parent = getParent();
+                parent.removeAll();
+                parent.add(new HeaderPanel(true, currentCustomer, null), BorderLayout.NORTH);
+                parent.add(new ContactPanel(currentCustomer), BorderLayout.CENTER);
+                parent.revalidate();
+                parent.repaint();
+            }
+        });
+
+        adminBtn.addActionListener(event -> {
+            if(currentCustomer == null && adminMode) {
+                Container parent = getParent();
+                parent.removeAll();
+                parent.add(new HeaderPanel(true, null, currentAdmin), BorderLayout.NORTH);
+                parent.add(new AdminPanel(), BorderLayout.CENTER);
+                parent.revalidate();
+                parent.repaint();
+            }
         });
     }
 }
-

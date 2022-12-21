@@ -16,7 +16,7 @@ public class GuiFrame extends JFrame {
         // man öppnar en ny vy.
         this.currentBody = currentBody;
 
-        headerPanel = new HeaderPanel(isLoggedIn, null);
+        headerPanel = new HeaderPanel(isLoggedIn, null, null);
 
         this.add(headerPanel, BorderLayout.NORTH);
         this.add(currentBody, BorderLayout.CENTER);

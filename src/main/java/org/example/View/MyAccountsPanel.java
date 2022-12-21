@@ -37,7 +37,6 @@ public class MyAccountsPanel extends JPanel {
         this.add(balance);
 
         accountName.addActionListener(listener -> {
-            // Trans hämtas genom Controller
             List<String> allTrans = Controller.findMyTransactions(currentCustomer);
             String content = getTransLines(allTrans);
 
@@ -49,7 +48,6 @@ public class MyAccountsPanel extends JPanel {
             this.revalidate();
             this.repaint();
         });
-
 
     }
 
