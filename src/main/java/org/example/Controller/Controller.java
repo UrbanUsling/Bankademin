@@ -33,12 +33,6 @@ public class Controller {
                 .findFirst().orElseThrow(() -> new NoSuchElementException());
     }
 
-    public static Customer getCustomerById(String id) throws NoSuchElementException {
-        return readFile.createListFromFile(customersFile).stream()
-                .filter(customer -> customer.getId().equalsIgnoreCase(id))
-                .findFirst().orElseThrow(() -> new NoSuchElementException());
-    }
-
 
     public static Customer getCustomerByAccountNr(String accountNumber) throws NoSuchElementException {
         return readFile.createListFromFile(customersFile).stream()
