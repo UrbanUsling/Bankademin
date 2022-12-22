@@ -2,6 +2,8 @@ package org.example.View;
 
 import org.example.Controller.Controller;
 import org.example.Model.Customer;
+import org.example.Model.User;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -23,8 +25,9 @@ public class TransferPanel extends JPanel {
     private String valBgPgChoice;
     private boolean isBgPg = false;
 
-    public TransferPanel(Customer currentCustomer) {
-        this.currentCustomer = currentCustomer;
+    public TransferPanel(User currentCustomer) {
+
+        this.currentCustomer = (Customer) currentCustomer;
         this.setLayout(new GridBagLayout());
 
         System.out.println("CUSTOMER: " + currentCustomer);

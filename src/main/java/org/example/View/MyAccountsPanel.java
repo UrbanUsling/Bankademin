@@ -2,6 +2,7 @@ package org.example.View;
 
 import org.example.Controller.Controller;
 import org.example.Model.Customer;
+import org.example.Model.User;
 
 import javax.swing.*;
 import java.awt.*;
@@ -16,18 +17,18 @@ public class MyAccountsPanel extends JPanel {
     private JScrollPane scrollpane = new JScrollPane(transactions);
 
 
-    public MyAccountsPanel(Customer currentCustomer) {
-        this.currentCustomer = currentCustomer;
+    public MyAccountsPanel(User currentCustomer) {
+        this.currentCustomer = (Customer) currentCustomer;
 
         customerName.setText("Kund: " + currentCustomer.getName());
         customerName.setFont(new Font("Sans-serif", Font.BOLD, 25));
 
-        accountName.setText("Konto: " + currentCustomer.getAccount().getAccountNumber());
+        accountName.setText("Konto: " + ((Customer) currentCustomer).getAccount().getAccountNumber());
         accountName.setFont(new Font("Sans-serif", Font.BOLD, 25));
         accountName.setBackground(Color.decode("#C0DEFF"));
         accountName.setFocusable(false);
 
-        balance.setText("Saldo: " + currentCustomer.getAccount().getBalance());
+        balance.setText("Saldo: " + ((Customer) currentCustomer).getAccount().getBalance());
         balance.setFont(new Font("Sans-serif", Font.BOLD, 25));
 
         this.add(customerName);
@@ -38,7 +39,7 @@ public class MyAccountsPanel extends JPanel {
 
         accountName.addActionListener(listener -> {
             // Trans hämtas genom Controller
-            List<String> allTrans = Controller.findMyTransactions(currentCustomer);
+            List<String> allTrans = Controller.findMyTransactions((Customer) currentCustomer);
             String content = getTransLines(allTrans);
 
             transactions.setFont(new Font("Sans-serif", Font.BOLD, 22));

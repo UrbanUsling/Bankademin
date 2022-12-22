@@ -1,12 +1,14 @@
 package org.example.View;
 
 import org.example.Controller.Controller;
+import org.example.Model.Admin;
 import org.example.Model.Customer;
 
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.time.LocalDate;
 import java.util.NoSuchElementException;
 
 public class LoginPanel extends JPanel {
@@ -66,13 +68,23 @@ public class LoginPanel extends JPanel {
         });
     }
 
-    private void handleLogin() {
-        Customer currentCustomer = Controller.verifyLogin(username.getText(), password.getText());
-        Container parent = getParent();
-        parent.removeAll();
-        parent.add(new HeaderPanel(true, currentCustomer), BorderLayout.NORTH);
-        parent.add(new HomePanel(currentCustomer), BorderLayout.CENTER);
-        parent.revalidate();
-        parent.repaint();
+    private void handleLogin() {//Hårdkodar in en admin login här. Ändrar typerna på parametrarna till User från Customer
+        if (username.getText().equals("1337") && password.getText().equals("1337")) {
+            Container parent = getParent();
+            parent.removeAll();
+            Admin a = new Admin("1337", "Admin", "1337", LocalDate.now());
+            parent.add(new HeaderPanel(true, true, a), BorderLayout.NORTH);
+            parent.add(new HomePanel(a), BorderLayout.CENTER);
+            parent.revalidate();
+            parent.repaint();
+        } else {
+            Customer currentCustomer = Controller.verifyLogin(username.getText(), password.getText());
+            Container parent = getParent();
+            parent.removeAll();
+            parent.add(new HeaderPanel(false, true, currentCustomer), BorderLayout.NORTH);
+            parent.add(new HomePanel(currentCustomer), BorderLayout.CENTER);
+            parent.revalidate();
+            parent.repaint();
+        }
     }
 }
