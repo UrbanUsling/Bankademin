@@ -15,7 +15,6 @@ public class HeaderPanel extends JPanel {
     private JButton buttonFour = new JButton("Om oss & kontakt");
     private JButton buttonFive = new JButton("Ändra Om oss & kontakt");
     private JButton buttonSix = new JButton("Ändra Hemmeddelande");
-    private JButton buttonSeven = new JButton("Stäng transaktioner");
     private ArrayList<JButton> adminButtons = new ArrayList<>();//lista med adminknappar
 
 
@@ -67,7 +66,6 @@ public class HeaderPanel extends JPanel {
         adminButtons.add(buttonFour);
         adminButtons.add(buttonFive);
         adminButtons.add(buttonSix);
-        adminButtons.add(buttonSeven);
         for (JButton button : adminButtons) {
 
             button.setFont(new Font("Sans-serif", Font.BOLD, 12));
